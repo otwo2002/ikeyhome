@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ikey.ikey.MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            <android.support.v7.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#267CB5"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                android:elevation="1dp"
+                android:id="@+id/toolbar">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/menu_title"
+                        android:text="아이키"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:textSize="25dp"/>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
+    </android.support.design.widget.CoordinatorLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <GridLayout
+            android:layout_width="264dp"
+            android:layout_height="360dp"
+            android:orientation="horizontal"
+            android:rowCount="2"
+            android:columnCount="2"
+            android:layout_gravity="center"
+            >
+            <ImageView
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:src="@drawable/if_people_gragh"
+                android:layout_height="200dp"
+                android:layout_width="200dp"
+                android:layout_gravity="center"/>
+            <Button
+                android:id="@+id/newBtn"
+                android:layout_height="130dp"
+                android:layout_width="130dp"
+                android:text="신규입력"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:drawableTop="@drawable/if_measure"
+                android:background="@drawable/button01"
+                android:layout_marginRight="2dp"
+                android:textColor="#FFFFFF"
+                />
+            <Button
+                android:id="@+id/resultBtn"
+                android:layout_height="130dp"
+                android:layout_width="130dp"
+                android:text="이전결과보기"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:drawableTop="@drawable/if_result"
+                android:background="@drawable/button01"
+                android:layout_marginLeft="2dp"
+                android:textColor="#FFFFFF"/>
+        </GridLayout>
+    </FrameLayout>
+</RelativeLayout>
+
+
+
+
+
+

@@ -194,6 +194,7 @@
                 ads:adSize="BANNER"
                 ads:adUnitId="@string/banner_ad_test_unit_id"/>
         </LinearLayout>
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="10dp"

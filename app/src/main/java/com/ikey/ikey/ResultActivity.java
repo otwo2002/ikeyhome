@@ -106,8 +106,10 @@ public class ResultActivity extends AppCompatActivity {
             //rawDateArray = parseJson( "bodymass" ,sex, month);
            // String wieghtPercent= callPercent(weight,rawDateArray);
            //resultBtn.setText("신장 : "+(new BigDecimal(heightPercent) ).setScale(1, RoundingMode.HALF_UP) +"%");
-            textpHeight.setText("신장 : "+(new BigDecimal(heightPercent) ).setScale(1, RoundingMode.HALF_UP) +"%");
-            textpWeight.setText("체중 : "+(new BigDecimal(weightPercent) ).setScale(1, RoundingMode.HALF_UP) +"%");
+            heightPercent = (new BigDecimal(heightPercent) ).setScale(1, RoundingMode.HALF_UP)+"";
+            weightPercent =(new BigDecimal(weightPercent) ).setScale(1, RoundingMode.HALF_UP)+"";
+            textpHeight.setText("신장 : "+heightPercent +"%");
+            textpWeight.setText("체중 : "+weightPercent +"%");
             TextView oneHeight = findViewById(R.id.oneHeight);
             TextView twoHeight = findViewById(R.id.twoHeight);
             TextView threeHeight = findViewById(R.id.threeHeight);

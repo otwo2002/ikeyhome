@@ -1,10 +1,13 @@
 package com.ikey.ikey;
 
+import java.math.BigDecimal;
+
 /**
  * Created by fready on 2018-04-19.
  */
 
 public class BodyInfoVO {
+    String id;
     String birth;
     String sex;
     String month;
@@ -13,7 +16,32 @@ public class BodyInfoVO {
     String hpercent;
     String wpercent;
     String insertDate;
+    BigDecimal hincre;
+    BigDecimal wincre;
 
+    public BigDecimal getHincre() {
+        return hincre;
+    }
+
+    public void setHincre(BigDecimal hincre) {
+        this.hincre = hincre;
+    }
+
+    public BigDecimal getWincre() {
+        return wincre;
+    }
+
+    public void setWincre(BigDecimal wincre) {
+        this.wincre = wincre;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getBirth() {
         return birth;
     }

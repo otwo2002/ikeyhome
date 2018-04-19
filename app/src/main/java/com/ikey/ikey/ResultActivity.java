@@ -1,6 +1,8 @@
 package com.ikey.ikey;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -26,6 +28,7 @@ import java.util.Date;
 
 public class ResultActivity extends AppCompatActivity {
     private AdView mAdView;
+    SQLiteDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,6 +162,12 @@ public class ResultActivity extends AppCompatActivity {
             twelveWeight.setText(weightDataArray[15].toString());
             thirteenWeight.setText(weightDataArray[16].toString());
 
+
+            //입력받은 값을 저장한다.
+            //DB오픈
+            openDatabase("ikey");
+            createTable("body_info");
+            insertData(birth, sex, month, height, weight, heightPercent, weightPercent);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -270,4 +279,45 @@ public class ResultActivity extends AppCompatActivity {
         }
         return mp;
     }
+
+
+    private void openDatabase(String databseName) {
+        println("openDatabase 호출");
+        db= openOrCreateDatabase(databseName, MODE_PRIVATE, null);
+        if(db!=null){
+            println("db open");
+        }
+
+    }
+
+    public void println(String data){
+        System.out.println(data + "\n");
+    }
+
+    public void createTable(String tableName){
+        println("createTable 호출");
+        if(db !=null){
+            String sql = "create table IF NOT EXISTS " +tableName+ " (_id integer PRIMARY KEY autoincrement, birth text,sex text, month integer,height text, weight text, hpercent text, wpercent text, insert_date text)";
+            db.execSQL(sql);
+            println("테이블생성됨.");
+        }else{
+            println("먼저데이터베이스를 오픈하세요");
+        }
+    }
+
+    private void insertData(String birth, String sex, String month, String height, String weight, String hpercent, String wpercent) {
+        println("insertData() 호출됨");
+        if (db!=null){
+            String sql ="insert into body_info(birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,date('now') )";
+            Object[] params = {birth, sex, month, height, weight, hpercent, wpercent};
+            db.execSQL(sql, params);
+        }else{
+            println("db open 호출됨");
+            openDatabase("ikey");
+            String sql ="insert into body_info(birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,date('now') )";
+            Object[] params = {birth, sex, month, height, weight, hpercent, wpercent};
+            db.execSQL(sql, params);
+        }
+    }
+
 }

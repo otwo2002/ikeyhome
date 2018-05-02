@@ -7,17 +7,37 @@ import java.math.BigDecimal;
  */
 
 public class BodyInfoVO {
+
     String id;
+    String name;
     String birth;
     String sex;
     String month;
     String weight;
     String height;
+    String preHeight;
     String hpercent;
     String wpercent;
     String insertDate;
     BigDecimal hincre;
+
+    public String getPreHeight() {
+        return preHeight;
+    }
+
+    public void setPreHeight(String preHeight) {
+        this.preHeight = preHeight;
+    }
+
     BigDecimal wincre;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public BigDecimal getHincre() {
         return hincre;

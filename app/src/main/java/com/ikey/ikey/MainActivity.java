@@ -23,6 +23,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Button newBtn = findViewById(R.id.newBtn);
         Button resultBtn = findViewById(R.id.resultBtn);
+        Button childBtn = findViewById(R.id.childBtn);
+        childBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ChildActivity.class);
+                startActivity(intent);
+            }
+        });
         newBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

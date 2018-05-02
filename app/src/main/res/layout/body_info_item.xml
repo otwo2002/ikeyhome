@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.ikey.ikey.CheckableLinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,46 +21,27 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="신장"
-            android:id="@+id/height"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="12dp"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:layout_weight="1">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text=""
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="13dp"/>
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="신장증감"
-            android:id="@+id/hincre"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="12dp"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:layout_weight="1">
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             android:text="등록일"
             android:id="@+id/insertDate"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="13dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="신장"
+            android:id="@+id/height"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="12dp"/>
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -79,34 +60,34 @@
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text=""
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="13dp"/>
+            android:text="신장증감"
+            android:id="@+id/hincre"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="12dp"/>
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="체중"
+            android:text="체중증감"
             android:id="@+id/wincre"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="12dp"/>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="wrap_content"
+
+    <TextView
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:text="111"
+    android:id="@+id/nid"
+    android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/deleteIcon"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp"
-        android:layout_gravity="center" >
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text=""
-            android:gravity="center"
-            android:id="@+id/idBox"
-            />
-    </LinearLayout>
-
-
-</LinearLayout>
+        android:layout_width="wrap_content"
+        android:drawableStart="@drawable/ic_delete_forever_black_24dp"
+        android:drawableLeft="@drawable/ic_delete_forever_black_24dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text=""/>
+</com.ikey.ikey.CheckableLinearLayout>

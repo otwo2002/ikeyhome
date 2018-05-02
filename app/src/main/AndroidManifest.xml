@@ -34,7 +34,8 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" /> <!-- 광고 -->
 
-        <activity android:name=".ResultSearchActivity"></activity>
+        <activity android:name=".ResultSearchActivity" />
+        <activity android:name=".ChildActivity"></activity>
     </application>
 
 </manifest>

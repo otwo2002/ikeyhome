@@ -1,11 +1,14 @@
 package com.ikey.ikey;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
@@ -34,6 +37,7 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         Intent intent = getIntent();
+        String name = intent.getExtras().getString("name");  //이름
         String birth = intent.getExtras().getString("birth");  //생년월일
         String sex = intent.getExtras().getString("sex");   //성별
         String height= intent.getExtras().getString("height");  //키
@@ -164,15 +168,33 @@ public class ResultActivity extends AppCompatActivity {
             twelveWeight.setText(weightDataArray[15].toString());
             thirteenWeight.setText(weightDataArray[16].toString());
 
-
             //입력받은 값을 저장한다.
             //DB오픈
             openDatabase("ikey");
             createTable("body_info");
-            insertData(birth, sex, month, height, weight, heightPercent, weightPercent);
+            insertData(name, birth, sex, month, height, weight, heightPercent, weightPercent);
+
+            ImageView back = findViewById(R.id.backBtn);
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    finish();
+                }
+            });
         }catch(Exception e){
+            showMessage("정보처리도중 오류가 발생했습니다.");
             e.printStackTrace();
         }
+
+        TextView historyTv= findViewById(R.id.historyBtn);
+        historyTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ResultActivity.this, ResultSearchActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
     //백분위 구하기
     private String callPercent(String height, Object[] rawDateArray ){
@@ -296,10 +318,14 @@ public class ResultActivity extends AppCompatActivity {
         System.out.println(data + "\n");
     }
 
-    public void createTable(String tableName){
+    public void createTable(String tableName) throws Exception{
         println("createTable 호출");
+        // String sql = "drop table  " +tableName;
+         //db.execSQL(sql);
         if(db !=null){
-            String sql = "create table IF NOT EXISTS " +tableName+ " (_id integer PRIMARY KEY autoincrement, birth text,sex text, month integer,height text, weight text, hpercent text, wpercent text, insert_date text)";
+           // String sql = "drop table  " +tableName;
+           // db.execSQL(sql);
+            String sql = "create table IF NOT EXISTS " +tableName+ " (_id integer PRIMARY KEY autoincrement,name text, birth text,sex text, month integer,height text, weight text, hpercent text, wpercent text, insert_date text)";
             db.execSQL(sql);
             println("테이블생성됨.");
         }else{
@@ -307,19 +333,33 @@ public class ResultActivity extends AppCompatActivity {
         }
     }
 
-    private void insertData(String birth, String sex, String month, String height, String weight, String hpercent, String wpercent) {
+    private void insertData(String name, String birth, String sex, String month, String height, String weight, String hpercent, String wpercent) throws Exception{
         println("insertData() 호출됨");
         if (db!=null){
-            String sql ="insert into body_info(birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,date('now') )";
-            Object[] params = {birth, sex, month, height, weight, hpercent, wpercent};
+            String sql ="insert into body_info(name, birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,?,date('now') )";
+            Object[] params = {name, birth, sex, month, height, weight, hpercent, wpercent};
             db.execSQL(sql, params);
         }else{
             println("db open 호출됨");
             openDatabase("ikey");
-            String sql ="insert into body_info(birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,date('now') )";
-            Object[] params = {birth, sex, month, height, weight, hpercent, wpercent};
+            String sql ="insert into body_info(name, birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,?,date('now') )";
+            Object[] params = {name, birth, sex, month, height, weight, hpercent, wpercent};
             db.execSQL(sql, params);
         }
     }
+    //메시지 출력
+    public void showMessage(String message){
 
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("확인");
+        builder.setMessage(message);
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {    }
+        });
+
+        android.support.v7.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

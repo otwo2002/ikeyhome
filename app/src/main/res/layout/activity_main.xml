@@ -4,7 +4,7 @@
     tools:context="com.ikey.ikey.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/bgColor"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout
@@ -17,7 +17,7 @@
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#267CB5"
+                android:background="@color/maintitle"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 android:elevation="1dp"
                 android:id="@+id/toolbar">
@@ -39,46 +39,62 @@
     </android.support.design.widget.CoordinatorLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+       >
         <GridLayout
             android:layout_width="264dp"
             android:layout_height="360dp"
             android:orientation="horizontal"
             android:rowCount="2"
-            android:columnCount="2"
+            android:columnCount="3"
             android:layout_gravity="center"
             >
             <ImageView
                 android:layout_row="0"
                 android:layout_column="0"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:src="@drawable/if_people_gragh"
                 android:layout_height="200dp"
                 android:layout_width="200dp"
                 android:layout_gravity="center"/>
             <Button
-                android:id="@+id/newBtn"
-                android:layout_height="130dp"
-                android:layout_width="130dp"
-                android:text="신규입력"
+                android:id="@+id/childBtn"
+                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:text="자녀관리"
                 android:layout_row="1"
                 android:layout_column="0"
                 android:drawableTop="@drawable/if_measure"
                 android:background="@drawable/button01"
                 android:layout_marginRight="2dp"
                 android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                />
+            <Button
+                android:id="@+id/newBtn"
+                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:text="신규입력"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:drawableTop="@drawable/if_measure"
+                android:background="@drawable/button01"
+                android:layout_marginRight="2dp"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
                 />
             <Button
                 android:id="@+id/resultBtn"
-                android:layout_height="130dp"
-                android:layout_width="130dp"
-                android:text="이전결과보기"
+                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:text="성장이력"
                 android:layout_row="1"
-                android:layout_column="1"
+                android:layout_column="2"
                 android:drawableTop="@drawable/if_result"
                 android:background="@drawable/button01"
                 android:layout_marginLeft="2dp"
-                android:textColor="#FFFFFF"/>
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"/>
         </GridLayout>
     </FrameLayout>
 </RelativeLayout>

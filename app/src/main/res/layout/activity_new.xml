@@ -4,7 +4,8 @@
     tools:context="com.ikey.ikey.NewActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/yellow"
+    xmlns:ads="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -12,11 +13,11 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#267CB5"
+                android:background="@color/green"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 android:elevation="1dp"
                 android:id="@+id/toolbar">
@@ -51,98 +52,27 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_below="@id/customMenu"
-            android:padding="5dp"
-            >
+            android:padding="5dp">
             <TableLayout
-                android:id="@+id/HumanTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp">
+
+                <TableRow>
+
+                    <ImageView
+                        android:layout_width="107dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/if_bear" />
+                </TableRow>
+            </TableLayout>
+            <Spinner
+                android:id="@+id/childSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:background="@color/brightGray"
-                android:layout_below="@+id/customMenu"
-                android:layout_marginTop="5dp">
-                <TableRow>
-                    <TextView android:text="자녀정보"
-                        android:drawableStart="@drawable/ic_face_black_24dp"
-                        android:drawableLeft="@drawable/ic_face_black_24dp"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:layout_gravity="left"/>
-                </TableRow>
-            </TableLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:gravity="center"
-                >
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:textSize="11dp"
-                    android:background="@drawable/spinner"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="#ff888888"/>
-                <EditText
-                    android:id="@+id/name"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/edit_text_line"
-                    android:hint="이름(별칭)"
-                    android:inputType="text"
-                    android:maxLength="8"
-                    android:text=""
-                    android:textSize="11dp"
-                    android:layout_marginLeft="5dp"
-                    />
-                <EditText
-                    android:id="@+id/birth"
-                    android:layout_width="110dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/edit_text_line"
-                    android:hint="생년월일(YYYYMMDD)"
-                    android:inputType="date"
-                    android:maxLength="8"
-                    android:text=""
-                    android:textSize="11dp"
-                    android:layout_marginLeft="5dp"
-                    />
-
-                <TextView
-                    android:id="@+id/addChild"
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/ic_add_24dp"
-                    android:drawableStart="@drawable/ic_add_24dp"
-                    android:gravity="center"
-                    android:text="" />
-            </LinearLayout>
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="106dp"
-                android:background="@drawable/table_border"
-                android:layout_margin="3dp"
-                android:id="@+id/listtbchild"
-                android:layout_below="@+id/HumanTitle"
-                >
-                <TableRow  android:layout_width="match_parent">
-
-                    <ListView
-                        android:id="@+id/listTopView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="100dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentStart="true"
-                        android:fadeScrollbars="false"
-                        android:scrollbars="vertical"
-                        android:scrollbarAlwaysDrawVerticalTrack="true"/>
-                </TableRow>
-            </TableLayout>
-
+                android:textSize="11dp"
+                android:background="@drawable/spinner"
+                android:textColor="#ff888888"/>
 
             <EditText
                 android:id="@+id/currHeight"
@@ -178,12 +108,12 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:text="결과보기"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:layout_columnSpan="2"
                 android:textColor="#FFFFFF"
-                android:drawableStart="@drawable/if_result_ic"
-                android:drawableLeft="@drawable/if_result_ic"/>
+                android:textStyle="bold"
+
+                android:layout_marginTop="20dp"
+                android:background="@color/orange"/>
 
     </LinearLayout>
+
 </RelativeLayout>

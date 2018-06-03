@@ -2,6 +2,7 @@ package com.ikey.ikey;
 
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,11 +10,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class ChildActivity extends AppCompatActivity {
     SQLiteDatabase db;
@@ -72,21 +79,61 @@ public class ChildActivity extends AppCompatActivity {
                 //입력받은 값을 저장한다.
                 //DB오픈
                 try {
+
+                    //입력한 날짜가 오늘보다 크면
+                    Calendar cal = Calendar.getInstance();
+                    Date d = new Date(cal.getTimeInMillis());
+                    DateFormat df = new SimpleDateFormat( "yyyyMMdd HH:mm:ss");
+                    int today = Integer.parseInt(df.format(d).substring(0,8));
+                    if( Integer.parseInt(birth) > today){
+                        showMessage("생년월일은 오늘보다 클수없습니다. ");
+                        return ;
+                    }
+                    //달 말일 확인
+
+                    int daysInMonth=0;
+                    boolean leapYear;
+                    leapYear = checkLeap(Integer.parseInt(birth.substring(0,4)));
+                    int month= Integer.parseInt(birth.substring(4,6));
+                    int day= Integer.parseInt(birth.substring(6,8));
+                    if (month == 4 || month == 6 || month == 9 || month == 11)
+                        daysInMonth = 30;
+                    else if (month == 2)
+                        daysInMonth = (leapYear) ? 29 : 28;
+                    else
+                        daysInMonth = 31;
+                    if(month==0|| month > 12 || day==0 ||day > daysInMonth){
+                        showMessage("생년월일을 확인하세요");
+                        return ;
+                    }
                     openDatabase("ikey");
                     createTable("child");
                     insertData(name, birth, sex);
                     showMessage("자녀등록이 완료되었습니다.");
                 }catch (Exception e){
-                    showMessage("등록중 오류가 발생했습니다. ");
+                    showMessage("등록중 오류가 발생했습니다. "+e.getMessage());
                     e.printStackTrace();
                 }
                 searchChild();
             }//end onclick
         });//end listener
 
+        ImageView back = findViewById(R.id.backBtn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }//end onCreate
-
+    //날짜 검사
+    // to check a year is leap or not
+    private boolean checkLeap(int year) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        return cal.getActualMaximum(Calendar.DAY_OF_YEAR) > 365;
+    }
 
    //자녀정보를 관리하는 어뎁터
     class ChildAdapter extends BaseAdapter {
@@ -107,19 +154,27 @@ public class ChildActivity extends AppCompatActivity {
         }
         //부분화면을 보내준다.
         @Override
-        public View getView(int i, View converView, ViewGroup viewGroup) {
-            HumanView view= null;
+        public View getView(final int i, View converView, ViewGroup viewGroup) {
+            ChildView view= null;
             if (converView==null) {
-                view = new HumanView(getApplicationContext());
+                view = new ChildView(getApplicationContext()
+                );
             }else{
-                view = (HumanView)converView;
+                view = (ChildView)converView;
             }
             BodyInfoVO item = items.get(i);
+            view.setNid(item.getId());
             view.setName(item.getName());
             view.setBirth(item.getBirth());
             view.setSex(item.getSex());
+            view.setTag(i);
+            view.getDeleteIcon().setOnClickListener(new View.OnClickListener() {
 
-
+                @Override
+                public void onClick(View view) {
+                    ReDrawList(i);
+                }
+            });
             return view;
         }
 
@@ -127,21 +182,61 @@ public class ChildActivity extends AppCompatActivity {
             items.add(item);
         }
     }
+    //리스트 다시 그리기
+    public void ReDrawList(final int rownum){
+        System.out.print("iiiiiiiiiiiiiiiiiiiiiiiiiiiii"+rownum);
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("삭제");
+        builder.setMessage("자녀정보를 삭제하면 해당자녀의 측정정보가 삭제됩니다. 삭제하시겠습니까?");
+        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                BodyInfoVO vo = (BodyInfoVO)childAdapter.getItem(rownum);
 
+                String id = vo.getId();
+                deleteData(id);
+                childAdapter.items.remove(rownum);
+
+                // listview 선택 초기화.
+                //childAdapter.clearChoices();
+
+                // listview 갱신.
+                childAdapter.notifyDataSetChanged();
+            }
+        });
+        builder.setNegativeButton("취소", new DialogInterface.OnClickListener(){
+
+            // 취소 버튼 클릭시 설정
+            public void onClick(DialogInterface dialog, int whichButton){
+                dialog.cancel();
+            }
+
+        });
+
+        android.support.v7.app.AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+    }
     private void searchChild(){
         //조회
-        childList = selectChildData();
-        ListView listTopView = (ListView) findViewById(R.id.listTopView);
-        childAdapter = new ChildAdapter();
+        try {
+            childList = selectChildData();
+            ListView listTopView = (ListView) findViewById(R.id.listTopView);
+            childAdapter = new ChildAdapter();
 
-        if(childList != null && childList.size() > 0) {
-            for (int i = 0; i < childList.size(); i++) {
-                childAdapter.addItem(childList.get(i));
+            if (childList != null && childList.size() > 0) {
+                for (int i = 0; i < childList.size(); i++) {
+                    childAdapter.addItem(childList.get(i));
+                }
+                // listview 갱신.
+                childAdapter.notifyDataSetChanged();
+                listTopView.setAdapter(childAdapter);
+            } else {
+                showMessage("등록된 자녀정보가 없습니다. 자녀등록후 이용해주세요. ");
             }
-            // listview 갱신.
-            childAdapter.notifyDataSetChanged();
-            listTopView.setAdapter(childAdapter);
-        } else {
+        }catch (SQLException sqle){
             showMessage("등록된 자녀정보가 없습니다. 자녀등록후 이용해주세요. ");
         }
     }
@@ -184,20 +279,22 @@ public class ChildActivity extends AppCompatActivity {
         println("selectChildData()호출됨");
         ArrayList<BodyInfoVO> list = new ArrayList<BodyInfoVO>();
         if(db!=null){
-            String sql = "select name,birth,sex " +
+            String sql = "select _id, name,birth,sex " +
                     "from child "+
                     "order by birth,name,  sex desc";
             Cursor cursor = db.rawQuery(sql , null);
             if(cursor!=null && cursor.getCount()>0) {
                 for (int i = 0; i < cursor.getCount(); i++) {
                     cursor.moveToNext();
-                    String name= cursor.getString(0);
-                    String birth = cursor.getString(1);
-                    String sex = cursor.getString(2);
+                    String id= cursor.getString(0);
+                    String name= cursor.getString(1);
+                    String birth = cursor.getString(2);
+                    String sex = cursor.getString(3);
 
                     BodyInfoVO vo = new BodyInfoVO();
+                    vo.setId(id);
                     vo.setName(name);
-                    vo.setBirth(birth);
+                    vo.setBirth(birth.substring(0,4)+"-"+birth.substring(4,6)+"-"+birth.substring(6,8));
                     vo.setSex( (sex.equals("1"))?"남자":"여자");
                     list.add(vo);
                 }
@@ -206,6 +303,24 @@ public class ChildActivity extends AppCompatActivity {
 
         }
         return list ;
+    }
+
+    private void deleteData(String strId) {
+        println("deleteData() 호출됨");
+        //Integer id = Integer.parseInt(strId);
+        if (db!=null){
+            String sql ="delete from child where _id= "+strId;
+            db.execSQL(sql);
+            sql ="delete from body_info where child_id= "+strId;
+            db.execSQL(sql);
+        }else{
+            println("db open 호출됨");
+            openDatabase("ikey");
+            String sql ="delete from child where _id= "+strId;
+            db.execSQL(sql);
+            sql ="delete from body_info where child_id= "+strId;
+            db.execSQL(sql);
+        }
     }
     public void println(String data){
         System.out.println(data + "\n");

@@ -20,6 +20,7 @@ public class BodyInfoVO {
     String wpercent;
     String insertDate;
     BigDecimal hincre;
+    BigDecimal wincre;
 
     public String getPreHeight() {
         return preHeight;
@@ -28,8 +29,6 @@ public class BodyInfoVO {
     public void setPreHeight(String preHeight) {
         this.preHeight = preHeight;
     }
-
-    BigDecimal wincre;
 
     public String getName() {
         return name;

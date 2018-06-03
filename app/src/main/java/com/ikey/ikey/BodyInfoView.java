@@ -2,6 +2,7 @@ package com.ikey.ikey;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -51,6 +52,18 @@ public class BodyInfoView extends LinearLayout {
     public TextView getDeleteIcon(){
         return deleteIcon;
     }
+    public TextView getWeightView(){
+        return weightView;
+    }
+    public TextView getHeightView(){
+        return heightView;
+    }
+    public TextView getMonthView(){
+        return monthView;
+    }
+    public TextView getInsertDateView(){
+        return insertDateView;
+    }
     public String getNid(){
         return nidView.getText().toString();
     }
@@ -74,6 +87,18 @@ public class BodyInfoView extends LinearLayout {
 
     public void setWincre(String wincre) {
         wincreView.setText(wincre);
+    }
+
+    public void setRedHincre() {hincreView.setTextColor(Color.parseColor("#FF0000") );}
+
+    public void setRedWincre() {
+        wincreView.setTextColor(Color.parseColor("#FF0000"));
+    }
+
+    public void setBlueHincre() {hincreView.setTextColor(Color.parseColor("#0054FF") );}
+
+    public void setBlueWincre() {
+        wincreView.setTextColor(Color.parseColor("#0054FF"));
     }
 
     public void setMonth(String month) {

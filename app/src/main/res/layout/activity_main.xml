@@ -4,12 +4,11 @@
     tools:context="com.ikey.ikey.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bgColor"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    android:background="@color/bgColor">
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/customMenu">
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,74 +29,86 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:textSize="25dp"/>
+                        android:textSize="25dp"
+                        android:textStyle="bold"/>
 
                 </RelativeLayout>
 
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
     </android.support.design.widget.CoordinatorLayout>
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_below="@id/customMenu"
+        android:id="@+id/btn"
        >
-        <GridLayout
-            android:layout_width="264dp"
-            android:layout_height="360dp"
-            android:orientation="horizontal"
-            android:rowCount="2"
-            android:columnCount="3"
-            android:layout_gravity="center"
-            >
-            <ImageView
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_columnSpan="3"
-                android:src="@drawable/if_people_gragh"
-                android:layout_height="200dp"
-                android:layout_width="200dp"
-                android:layout_gravity="center"/>
+
+        <TableLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="30dp">
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_gravity="right"
+                    android:src="@drawable/if_boy_green" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/if_ruler" />
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:src="@drawable/if_girl_yellow" />
+            </TableRow>
+        </TableLayout>
             <Button
                 android:id="@+id/childBtn"
-                android:layout_height="100dp"
-                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_width="200dp"
                 android:text="자녀관리"
                 android:layout_row="1"
                 android:layout_column="0"
-                android:drawableTop="@drawable/if_measure"
-                android:background="@drawable/button01"
-                android:layout_marginRight="2dp"
+                android:background="@drawable/button_main"
+                android:layout_marginTop="10dp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 />
             <Button
                 android:id="@+id/newBtn"
-                android:layout_height="100dp"
-                android:layout_width="80dp"
-                android:text="신규입력"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:drawableTop="@drawable/if_measure"
-                android:background="@drawable/button01"
-                android:layout_marginRight="2dp"
+                android:layout_height="50dp"
+                android:layout_width="200dp"
+                android:text="측정정보입력"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:background="@drawable/button_main"
+                android:layout_marginTop="5dp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
                 />
             <Button
                 android:id="@+id/resultBtn"
-                android:layout_height="100dp"
-                android:layout_width="80dp"
-                android:text="성장이력"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:drawableTop="@drawable/if_result"
-                android:background="@drawable/button01"
-                android:layout_marginLeft="2dp"
+                android:layout_height="50dp"
+                android:layout_width="200dp"
+                android:text="성장이력보기"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:background="@drawable/button_main"
+                android:layout_marginTop="5dp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"/>
-        </GridLayout>
-    </FrameLayout>
+        </LinearLayout>
+
 </RelativeLayout>
+
 
 
 

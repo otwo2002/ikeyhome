@@ -4,6 +4,7 @@
     tools:context="com.ikey.ikey.NewActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/yellow"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -12,11 +13,12 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            >
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#267CB5"
+                android:background="@color/green"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 android:elevation="1dp"
                 android:id="@+id/toolbar">
@@ -52,21 +54,29 @@
         android:gravity="center"
         android:layout_below="@id/customMenu"
         android:padding="5dp"
+        android:background="@color/yellow"
         >
         <TableLayout
             android:id="@+id/HumanTitle"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@color/brightGray"
+            android:background="@color/yellow"
             android:layout_below="@+id/customMenu"
             android:layout_marginTop="5dp">
-            <TableRow>
-                <TextView android:text="자녀정보"
-                    android:drawableStart="@drawable/ic_face_black_24dp"
-                    android:drawableLeft="@drawable/ic_face_black_24dp"
-                    android:layout_marginLeft="10dp"
+
+            <TableRow android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/if_clipboard" />
+
+                <TextView
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="2dp"
                     android:gravity="center"
-                    android:layout_gravity="left"/>
+                    android:text="자녀정보" />
             </TableRow>
         </TableLayout>
         <LinearLayout
@@ -86,7 +96,7 @@
                 android:textColor="#ff888888"/>
             <EditText
                 android:id="@+id/name"
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_line"
                 android:hint="이름(별칭)"
@@ -98,7 +108,7 @@
                 />
             <EditText
                 android:id="@+id/birth"
-                android:layout_width="110dp"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:background="@drawable/edit_text_line"
                 android:hint="생년월일(YYYYMMDD)"
@@ -140,7 +150,8 @@
                     android:layout_alignParentStart="true"
                     android:fadeScrollbars="false"
                     android:scrollbars="vertical"
-                    android:scrollbarAlwaysDrawVerticalTrack="true"/>
+                    android:scrollbarAlwaysDrawVerticalTrack="true"
+                    android:choiceMode="singleChoice"/>
             </TableRow>
         </TableLayout>
 

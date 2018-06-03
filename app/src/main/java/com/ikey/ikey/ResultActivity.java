@@ -2,18 +2,25 @@ package com.ikey.ikey;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -25,9 +32,12 @@ import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 
 public class ResultActivity extends AppCompatActivity {
     private AdView mAdView;
@@ -37,67 +47,70 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         Intent intent = getIntent();
-        String name = intent.getExtras().getString("name");  //이름
-        String birth = intent.getExtras().getString("birth");  //생년월일
-        String sex = intent.getExtras().getString("sex");   //성별
-        String height= intent.getExtras().getString("height");  //키
-        String weight= intent.getExtras().getString("weight"); //몸무게
-        String sexText = "";
-        if(sex.equals("1")){
-            sexText= "남자";
-        }else if(sex.equals("2")){
-            sexText= "여자";
-        }
-        String month = calMonth(birth);
-        TextView pMonth = findViewById(R.id.pMonth);
-        TextView textiWeight = findViewById(R.id.iWeight);
-        TextView textiHeight = findViewById(R.id.iHeight);
-        textiHeight.setText("신장 : "+height+"cm");
-        textiWeight.setText("체중 : "+weight+"kg");
-        TextView textpWeight = findViewById(R.id.pWeight);
-        TextView textpHeight = findViewById(R.id.pHeight);
-        TextView tableNote =  findViewById(R.id.tableNote);
-        pMonth.setText(sexText + " : "+month+"개월");
-        tableNote.setText( ""+month+"개월 "+sexText+"아이 백분위수");
-        //광고--------------------------------------------------------
-        // Sample AdMob app ID: ca-app-pub-3940256099942544/6300978111  - 테스트 아이디
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        mAdView.loadAd(adRequest);
-        mAdView.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // Code to be executed when an ad finishes loading.
-                //Toast.makeText(rootView.getContext(), "광고로드", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-            }
-
-            @Override
-            public void onAdOpened() {
-                // Code to be executed when an ad opens an overlay that
-                // covers the screen.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
-            }
-
-            @Override
-            public void onAdClosed() {
-                // Code to be executed when when the user is about to return
-                // to the app after tapping on an ad.
-            }
-        });
-        //-------------------------------------광고끝 ---------------------------------------------
 
         try {
+            String name = intent.getExtras().getString("name");  //이름
+            String birth = intent.getExtras().getString("birth");  //생년월일
+            String sex = intent.getExtras().getString("sex");   //성별
+            String height= intent.getExtras().getString("height");  //키
+            String weight= intent.getExtras().getString("weight"); //몸무게
+            String id= intent.getExtras().getString("id"); //자녀정보ID
+            String sexText = "";
+            if(sex.equals("1")){
+                sexText= "남자";
+            }else if(sex.equals("2")){
+                sexText= "여자";
+            }
+            String month = calMonth(birth);
+            TextView pMonth = findViewById(R.id.pMonth);
+            TextView textiWeight = findViewById(R.id.iWeight);
+            TextView textiHeight = findViewById(R.id.iHeight);
+            textiHeight.setText("신장 : "+height+"cm");
+            textiWeight.setText("체중 : "+weight+"kg");
+            TextView textpWeight = findViewById(R.id.pWeight);
+            TextView textpHeight = findViewById(R.id.pHeight);
+            TextView tableNote =  findViewById(R.id.tableNote);
+            pMonth.setText(name + " : "+month+"개월");
+            tableNote.setText( ""+month+"개월 "+sexText+"아이 백분위수");
+            //광고--------------------------------------------------------
+            // Sample AdMob app ID: ca-app-pub-3940256099942544/6300978111  - 테스트 아이디
+            MobileAds.initialize(this,
+                    "ca-app-pub-4987131221778488/1324054764");
+            mAdView = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+
+            mAdView.loadAd(adRequest);
+            mAdView.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                    // Code to be executed when an ad finishes loading.
+                    //Toast.makeText(rootView.getContext(), "광고로드", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onAdFailedToLoad(int errorCode) {
+                    // Code to be executed when an ad request fails.
+                }
+
+                @Override
+                public void onAdOpened() {
+                    // Code to be executed when an ad opens an overlay that
+                    // covers the screen.
+                }
+
+                @Override
+                public void onAdLeftApplication() {
+                    // Code to be executed when the user has left the app.
+                }
+
+                @Override
+                public void onAdClosed() {
+                    // Code to be executed when when the user is about to return
+                    // to the app after tapping on an ad.
+                }
+            });
+            //-------------------------------------광고끝 ---------------------------------------------
+
             //키목록 가져오기
             Object[] heightDataArray = parseJson( "height" ,sex, month);
             //키퍼센트
@@ -167,13 +180,13 @@ public class ResultActivity extends AppCompatActivity {
             elevenWeight.setText(weightDataArray[14].toString());
             twelveWeight.setText(weightDataArray[15].toString());
             thirteenWeight.setText(weightDataArray[16].toString());
-
-            //입력받은 값을 저장한다.
-            //DB오픈
-            openDatabase("ikey");
-            createTable("body_info");
-            insertData(name, birth, sex, month, height, weight, heightPercent, weightPercent);
-
+            if(!id.equals("")){
+                //입력받은 값을 저장한다.
+                //DB오픈
+                openDatabase("ikey");
+                createTable("body_info");
+                insertData(name, birth, sex, month, height, weight, heightPercent, weightPercent, id);
+            }
             ImageView back = findViewById(R.id.backBtn);
             back.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,20 +194,121 @@ public class ResultActivity extends AppCompatActivity {
                     finish();
                 }
             });
+
+
+            TextView historyTv= findViewById(R.id.historyBtn);
+            historyTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ResultActivity.this, ResultSearchActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            //-----------------------------------그래프 -------------------------------
+             //최대값 최소값 셋팅
+            String minWeight;
+            String maxWeight;
+            String minHeight;
+            String maxHeight;
+            if( ( new BigDecimal(height)).compareTo(new BigDecimal(heightDataArray[16].toString()))>0){
+                maxHeight=(Double.parseDouble(height)+3)+"";
+            }else{
+                maxHeight=(Double.parseDouble(heightDataArray[16].toString())+3)+"";
+            }
+            if( ( new BigDecimal(weight)).compareTo(new BigDecimal(weightDataArray[16].toString()))>0){
+                maxWeight= (Double.parseDouble(weight)+3)+"";
+            }else{
+                maxWeight=(Double.parseDouble(weightDataArray[16].toString())+3)+"";
+            }
+
+            if( ( new BigDecimal(height)).compareTo(new BigDecimal(heightDataArray[4].toString()))<0){
+                minHeight=height;
+            }else{
+                minHeight=heightDataArray[4].toString();
+            }
+            if( ( new BigDecimal(weight)).compareTo(new BigDecimal(weightDataArray[4].toString()))<0){
+                minWeight=weight;
+            }else{
+                minWeight=weightDataArray[4].toString();
+            }
+            //X축 라벨 추가
+            BarChart chart1 = (BarChart) findViewById(R.id.chart1);
+            Legend L1;
+            L1 = chart1.getLegend();
+            //L1.setEnabled(false);
+            chart1.setDescription("신장(cm)");
+            //chart1.setDrawGridBackground(false);
+            ArrayList<BarEntry> entries1 = new ArrayList<BarEntry>();
+            entries1.add(new BarEntry(Float.parseFloat(height), 0));
+
+            ArrayList<BarEntry> entries2 = new ArrayList<BarEntry>();
+            entries2.add(new BarEntry(Float.parseFloat(heightDataArray[16].toString()), 0));
+
+            BarDataSet set1 = new BarDataSet(entries1, "우리아이");
+            BarDataSet set2 = new BarDataSet(entries2, "신장 100%");
+            ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
+            dataSets.add(set1);
+            dataSets.add(set2);
+            set1.setColors(ColorTemplate.COLORFUL_COLORS); //
+            set1.setValueTextColor(Color.rgb(155,155,155));
+            set1.setValueTextSize(11f);
+            set2.setValueTextSize(11f);
+            ArrayList<String> labels = new ArrayList<String>();
+            labels.add("");
+            BarData data = new BarData(labels, dataSets);
+
+            chart1.setData(data);
+            YAxis leftAxis = chart1.getAxisLeft();
+            leftAxis.setStartAtZero(false);
+            leftAxis.setAxisMinValue(Float.parseFloat(minHeight));
+            leftAxis.setAxisMaxValue(Float.parseFloat(maxHeight));
+            YAxis rightAxis = chart1.getAxisRight();
+            rightAxis.setStartAtZero(false);
+            rightAxis.setDrawLabels(false);//오른쪽 범례 없애기
+            rightAxis.setAxisMinValue(Float.parseFloat(minHeight));
+            rightAxis.setAxisMaxValue(Float.parseFloat(maxHeight));
+
+            //체중 차트
+            //X축 라벨 추가
+            BarChart chart2 = (BarChart) findViewById(R.id.chart2);
+            Legend L2;
+            chart2.setDescription("체중(kg)");
+            L2 = chart2.getLegend();
+            ArrayList<BarEntry> entriesW1 = new ArrayList<BarEntry>();
+            entriesW1.add(new BarEntry(Float.parseFloat(weight), 0));
+
+            ArrayList<BarEntry> entriesW2 = new ArrayList<BarEntry>();
+            entriesW2.add(new BarEntry(Float.parseFloat(weightDataArray[16].toString()), 0));
+
+            BarDataSet setW1 = new BarDataSet(entriesW1, "우리아이");
+            BarDataSet setW2 = new BarDataSet(entriesW2, "체중100%");
+            ArrayList<BarDataSet> dataSetsW = new ArrayList<BarDataSet>();
+            dataSetsW.add(setW1);
+            dataSetsW.add(setW2);
+            setW1.setColors(ColorTemplate.COLORFUL_COLORS);
+            setW1.setValueTextColor(Color.rgb(155,155,155));
+            setW1.setValueTextSize(11f);
+            setW2.setValueTextSize(11f);
+            ArrayList<String> labelsW = new ArrayList<String>();
+            labelsW.add("");
+            BarData dataW = new BarData(labelsW, dataSetsW);
+
+            chart2.setData(dataW);
+            YAxis weightLeftAxis = chart2.getAxisLeft();
+            weightLeftAxis.setStartAtZero(false);
+            weightLeftAxis.setAxisMinValue(Float.parseFloat(minWeight));
+            weightLeftAxis.setAxisMaxValue(Float.parseFloat(maxWeight));
+            YAxis weightRightAxis = chart2.getAxisRight();
+            weightRightAxis.setStartAtZero(false);
+            weightRightAxis.setDrawLabels(false);
+            weightRightAxis.setAxisMinValue(Float.parseFloat(minWeight));
+            weightRightAxis.setAxisMaxValue(Float.parseFloat(maxWeight));
+
         }catch(Exception e){
-            showMessage("정보처리도중 오류가 발생했습니다.");
+            showMessage("정보처리도중 오류가 발생했습니다."+e.getMessage());
             e.printStackTrace();
         }
-
-        TextView historyTv= findViewById(R.id.historyBtn);
-        historyTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ResultActivity.this, ResultSearchActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
     //백분위 구하기
     private String callPercent(String height, Object[] rawDateArray ){
@@ -203,17 +317,22 @@ public class ResultActivity extends AppCompatActivity {
             //백분위 구하는공식
             //Z=((x/M)^L-1)/LS, L!=0
             //NORMSDIST(Z)*100 = 백분위수
-            BigDecimal Z =(new BigDecimal(height)).divide( new BigDecimal(rawDateArray[2].toString()), MathContext.DECIMAL128);
-            double middleValue = Math.pow(Z.doubleValue(),( new BigDecimal(rawDateArray[1].toString())).doubleValue()) -1 ;
-            Z = (new BigDecimal(middleValue)).divide(
-                    ( new BigDecimal(rawDateArray[1].toString())).multiply(( new BigDecimal(rawDateArray[3].toString())), MathContext.DECIMAL128)
-                    , MathContext.DECIMAL128
-            );
-
-            System.out.println("Z------------------>"+Z);
-            percent = NORMSDIST(Z.doubleValue())*100;
-            System.out.println("double------------------>"+percent);
-
+            //만약에 값이 100%를 넘어가는 값이거나 0%보다 작을경우 처리해줌.
+            if( new BigDecimal(height).compareTo(new BigDecimal(rawDateArray[4].toString())) <0 ){
+                percent=0;
+            }else if(new BigDecimal(height).compareTo( new BigDecimal(rawDateArray[16].toString()) )> 0){
+                percent=100;
+            }else {
+                BigDecimal Z = (new BigDecimal(height)).divide(new BigDecimal(rawDateArray[2].toString()), MathContext.DECIMAL128);
+                double middleValue = Math.pow(Z.doubleValue(), (new BigDecimal(rawDateArray[1].toString())).doubleValue()) - 1;
+                Z = (new BigDecimal(middleValue)).divide(
+                        (new BigDecimal(rawDateArray[1].toString())).multiply((new BigDecimal(rawDateArray[3].toString())), MathContext.DECIMAL128)
+                        , MathContext.DECIMAL128
+                );
+                System.out.println("Z------------------>" + Z);
+                percent = NORMSDIST(Z.doubleValue()) * 100;
+                System.out.println("double------------------>" + percent);
+            }
         }
         return percent+"";
     }
@@ -297,7 +416,6 @@ public class ResultActivity extends AppCompatActivity {
                     mp =  jarray.toArray();
                 }
             }
-
         }catch (Exception e){
             throw e;
         }
@@ -311,7 +429,6 @@ public class ResultActivity extends AppCompatActivity {
         if(db!=null){
             println("db open");
         }
-
     }
 
     public void println(String data){
@@ -324,8 +441,8 @@ public class ResultActivity extends AppCompatActivity {
          //db.execSQL(sql);
         if(db !=null){
            // String sql = "drop table  " +tableName;
-           // db.execSQL(sql);
-            String sql = "create table IF NOT EXISTS " +tableName+ " (_id integer PRIMARY KEY autoincrement,name text, birth text,sex text, month integer,height text, weight text, hpercent text, wpercent text, insert_date text)";
+            //db.execSQL(sql);
+            String sql = "create table IF NOT EXISTS " +tableName+ " (_id integer PRIMARY KEY autoincrement,child_id integer, name text, birth text,sex text, month integer,height text, weight text, hpercent text, wpercent text, insert_date text)";
             db.execSQL(sql);
             println("테이블생성됨.");
         }else{
@@ -333,17 +450,17 @@ public class ResultActivity extends AppCompatActivity {
         }
     }
 
-    private void insertData(String name, String birth, String sex, String month, String height, String weight, String hpercent, String wpercent) throws Exception{
+    private void insertData(String name, String birth, String sex, String month, String height, String weight, String hpercent, String wpercent, String childId) throws Exception{
         println("insertData() 호출됨");
         if (db!=null){
-            String sql ="insert into body_info(name, birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,?,date('now') )";
-            Object[] params = {name, birth, sex, month, height, weight, hpercent, wpercent};
+            String sql ="insert into body_info(child_id , name, birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,?,?,date('now') )";
+            Object[] params = {childId, name, birth, sex, month, height, weight, hpercent, wpercent};
             db.execSQL(sql, params);
         }else{
             println("db open 호출됨");
             openDatabase("ikey");
-            String sql ="insert into body_info(name, birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,?,date('now') )";
-            Object[] params = {name, birth, sex, month, height, weight, hpercent, wpercent};
+            String sql ="insert into body_info(child_id, name, birth, sex, month, height, weight, hpercent, wpercent, insert_date) values(?,?,?,?,?,?,?,?,?,date('now') )";
+            Object[] params = {childId,name, birth, sex, month, height, weight, hpercent, wpercent};
             db.execSQL(sql, params);
         }
     }

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.ikey.ikey.ResultSearchActivity"
+<FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ikey.ikey.ResultSearchActivity"
     xmlns:ads="http://schemas.android.com/apk/res-auto">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +21,7 @@
             <android.support.v7.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#267CB5"
+                android:background="@color/green"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark"
                 android:elevation="1dp"
                 android:id="@+id/toolbar">
@@ -48,14 +53,14 @@
         android:layout_height="30dp"
         android:background="@color/brightGray"
         android:layout_below="@+id/customMenu"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="10dp">
         <TableRow>
-            <TextView android:text="자녀정보"
-                android:drawableStart="@drawable/ic_face_black_24dp"
-                android:drawableLeft="@drawable/ic_face_black_24dp"
+            <TextView android:text=" 자녀정보"
+                android:drawableStart="@drawable/if_clipboard"
+                android:drawableLeft="@drawable/if_clipboard"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:layout_gravity="left"/>
+                android:layout_gravity="center"/>
         </TableRow>
     </TableLayout>
     <TableLayout
@@ -74,9 +79,7 @@
                 android:layout_height="100dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:fadeScrollbars="false"
-                android:scrollbars="vertical"
-                android:scrollbarAlwaysDrawVerticalTrack="true"/>
+                android:choiceMode="singleChoice"/>
         </TableRow>
     </TableLayout>
 
@@ -89,8 +92,8 @@
         <TableRow   >
             <TextView android:id="@+id/historyTitle"
                 android:text="성장이력"
-                android:drawableStart="@drawable/ic_assessment_gray_24dp"
-                android:drawableLeft="@drawable/ic_assessment_gray_24dp"
+                android:drawableStart="@drawable/if_measure_60307"
+                android:drawableLeft="@drawable/if_measure_60307"
                 android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:layout_gravity="left"
@@ -107,13 +110,33 @@
             <ListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="200dp"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:fadeScrollbars="false"
                 android:scrollbars="vertical"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
-                android:choiceMode="singleChoice" />
+                android:choiceMode="multipleChoice" />
         </TableRow>
     </TableLayout>
 </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="bottom"
+        android:layout_marginTop="10dp"
+        >
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/banner_ad_unit_id"
+            android:focusable="false"/>
+    </LinearLayout>
+</FrameLayout>

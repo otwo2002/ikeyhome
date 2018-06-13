@@ -122,6 +122,7 @@ public class NewActivity extends AppCompatActivity {
                     intent.putExtra("sex", vo.getSex());//성별
                     intent.putExtra("height", height);
                     intent.putExtra("weight", weight);
+                    intent.putExtra("month", "");
                     startActivity(intent);
                     finish();
                 }

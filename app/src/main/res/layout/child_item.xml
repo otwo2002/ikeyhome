@@ -6,9 +6,9 @@
     android:orientation="horizontal"
     android:background="#FFFFFF"
     android:layout_margin="5dp"
-    android:descendantFocusability="blocksDescendants"
     android:layout_gravity="center"
-    android:gravity="center">
+    android:gravity="center"
+    android:descendantFocusability="blocksDescendants">
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="70dp"
@@ -17,7 +17,8 @@
         android:textSize="13dp"
         android:drawableStart="@drawable/ic_face_black_24dp"
         android:drawableLeft="@drawable/ic_face_black_24dp"
-        android:textColor="@drawable/list_color"/>
+        android:textColor="@color/blue"
+        android:textStyle="bold"/>
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="70dp"
@@ -26,6 +27,13 @@
         android:textSize="12dp"
         android:layout_weight="1"
         android:textColor="@drawable/list_color"/>
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:text=""
+        android:id="@+id/month"
+        android:textSize="12dp"
+        android:textColor="@color/orange"/>
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="30dp"

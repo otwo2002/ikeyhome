@@ -18,6 +18,7 @@ public class ChildView extends LinearLayout {
     TextView nameView;
     TextView birthView;
     TextView sexView;
+    TextView monthView;
     TextView deleteIcon;
     TextView nidView ;
     public ChildView(Context context) {
@@ -39,6 +40,7 @@ public class ChildView extends LinearLayout {
         sexView = (TextView)findViewById(R.id.sex);
         deleteIcon = (TextView)findViewById(R.id.deleteIcon);
         nidView = (TextView)findViewById(R.id.nid);
+        monthView = (TextView)findViewById(R.id.month);
     }
     public TextView getDeleteIcon(){
         return deleteIcon;
@@ -53,8 +55,8 @@ public class ChildView extends LinearLayout {
     public void setBirth(String birth) {
         birthView.setText(birth);
     }
-    public void setSex(String sex) {  sexView.setText(sex);
-    }
+    public void setSex(String sex) {  sexView.setText(sex);}
+    public void setMonthView(String month) {  monthView.setText(month);}
     public void setNid(String nid) {
         nidView.setText(nid);
     }

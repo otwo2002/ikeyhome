@@ -55,13 +55,18 @@ public class ResultActivity extends AppCompatActivity {
             String height= intent.getExtras().getString("height");  //키
             String weight= intent.getExtras().getString("weight"); //몸무게
             String id= intent.getExtras().getString("id"); //자녀정보ID
+            String month= intent.getExtras().getString("month"); //개월수
             String sexText = "";
             if(sex.equals("1")){
                 sexText= "남자";
             }else if(sex.equals("2")){
                 sexText= "여자";
             }
-            String month = calMonth(birth);
+            //상세보기이면 앞에서 받은 개월수로 계산해줌.
+            if(month ==null || month.equals("")){
+                month = calMonth(birth);
+            }
+
             TextView pMonth = findViewById(R.id.pMonth);
             TextView textiWeight = findViewById(R.id.iWeight);
             TextView textiHeight = findViewById(R.id.iHeight);

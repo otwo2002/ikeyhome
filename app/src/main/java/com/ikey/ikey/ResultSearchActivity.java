@@ -305,6 +305,8 @@ public class ResultSearchActivity extends AppCompatActivity {
         intent.putExtra("sex",vo.getSex());//성별
         intent.putExtra("height", vo.getHeight());
         intent.putExtra("weight", vo.getWeight());
+        intent.putExtra("month", vo.getMonth());
+
         startActivity(intent);
     }
     //리스트 다시 그리기

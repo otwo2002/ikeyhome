@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -127,6 +128,23 @@ public class ChildActivity extends AppCompatActivity {
         });
 
     }//end onCreate
+    //개월수 계산하기
+    //만나이(개월) = ((측정년도-출생년도)×12))+(측정월-출생월)+((측정일-출생일)÷30.42))  소수점 버림
+    private String calMonth(String birth) {
+        //현재날짜 구함.
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+
+        String currdate = sdf.format(date);
+        int middleValue=((Integer.parseInt(currdate.substring(0,4))-Integer.parseInt(birth.substring(0,4)))*12)
+                +(Integer.parseInt(currdate.substring(4,6))-Integer.parseInt(birth.substring(4,6)));
+
+        BigDecimal dayValue = new BigDecimal(Integer.parseInt(currdate.substring(6,8))-Integer.parseInt(birth.substring(6,8)));
+        dayValue = dayValue.divide(new BigDecimal("30.42"),0, BigDecimal.ROUND_FLOOR);
+        BigDecimal finalValue = dayValue.add(new BigDecimal(middleValue));
+        return finalValue.toString();
+    }
     //날짜 검사
     // to check a year is leap or not
     private boolean checkLeap(int year) {
@@ -168,6 +186,7 @@ public class ChildActivity extends AppCompatActivity {
             view.setBirth(item.getBirth());
             view.setSex(item.getSex());
             view.setTag(i);
+            view.setMonthView("("+calMonth(item.getBirth().replaceAll("-",""))+"개월)");
             view.getDeleteIcon().setOnClickListener(new View.OnClickListener() {
 
                 @Override
